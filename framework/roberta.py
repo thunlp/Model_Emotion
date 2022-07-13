@@ -222,7 +222,7 @@ class RobertaWarp(RobertaPreTrainedModel):
         )
     
     def tie_weights(self):
-        """No need to tie input and outpu embeddings."""
+        """No need to tie input and output embeddings."""
         pass
 
 class RobertaEmbeddingsWarp(RobertaEmbeddings):
