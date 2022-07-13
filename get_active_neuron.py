@@ -1,31 +1,21 @@
 import os
-import glob
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
-from transformers import AutoTokenizer, AutoModel
-
-# from framework.models.roberta import RobertaWarp
+from transformers import AutoTokenizer
 from framework.roberta import RobertaWarp
 
-from sklearn.metrics.pairwise import cosine_similarity
-import seaborn as sns
-import matplotlib.pyplot as plt
+# Define 12 Random Seeds
+random_seeds = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 42, 100]
 
-
-random_seeds = [1, 42, 100, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-
+# Define 27 Emotion Tasks 
 sentiments = ['amusement','excitement','joy','love','desire','optimism','caring',
               'pride','admiration','gratitude','relief', 'approval', 
               'realization', 'surprise', 'curiosity', 'confusion', 
               'fear', 'nervousness', 'remorse', 'embarrassment', 'disappointment', 
               'sadness', 'grief', 'disgust', 'anger', 'annoyance', 'disapproval']
-
-category = ['positive'] * 12 + ['ambiguous'] * 4 + ['negative'] * 11
-
-color = ['palegreen'] * 12 + ['yellow'] * 4 + ['cornflowerblue'] * 11
 
 
 class ActiveNeuronDataset(Dataset):
@@ -47,18 +37,15 @@ loader = DataLoader(ActiveNeuronDataset(), batch_size=1, shuffle=False)
 nlayers = 12
 result = []
 acc = []
+state = 'best'
 for sentiment in tqdm(sentiments, 'Sentiment'):
 
     per_sentiment_out_before_relu = []
     per_sentiment_out_after_relu = []
     for seed in tqdm(random_seeds, 'Random seed', leave=False):
-
-        if seed in [1, 42, 100]:
-            ckpt = torch.load(f'./checkpoint/{sentiment}-{seed}.pt')
-        else:
-            ckpt = torch.load(f'./checkpoint/{sentiment}-{seed}.pt')
-            
-        state_dict = ckpt['last_state_dict']
+        ckpt = torch.load(f'./checkpoint/{sentiment}-{seed}.pt')
+        prompt_emb = torch.nn.Parameter(ckpt[f'{state}_prompt']).to('cpu')
+        model.roberta.embeddings.prompt_embedding.weight = prompt_emb
 
         # Accuracy
         acc.append({
@@ -73,12 +60,9 @@ for sentiment in tqdm(sentiments, 'Sentiment'):
         # emb.to_csv(f'./prompt_embedding_csv/{sentiment}-{seed}.csv', index=None)
 
         # Forward pass to get active neuron
-        model.load_state_dict(state_dict, strict=False)
-
         outputs = [[] for _ in range(nlayers)]
         def save_ppt_outputs1_hook(n):
             def fn(_,__,output):
-                # outputs[n].append(output.detach().to('cpu'))
                 outputs[n] = output.detach().to('cpu')
             return fn
 
@@ -86,17 +70,15 @@ for sentiment in tqdm(sentiments, 'Sentiment'):
             model.roberta.encoder.layer[n].intermediate.register_forward_hook(save_ppt_outputs1_hook(n))
 
         for sentence in loader:
-            inputs = tokenizer(sentence, return_tensors='pt').to('cpu')
+            inputs = tokenizer(sentence, return_tensors='pt', add_special_tokens=False).to('cpu')
             _ = model(**inputs)
 
-        for k in range(nlayers):
-            outputs[k] = torch.cat(outputs[k])
-
         outputs = torch.stack(outputs)
-        outputs = outputs[:,:1,:1,:] #12 layers, [mask]
+        # print(outputs.shape)          # [12, 1, 102, 3072]
+        outputs = outputs[:,:1,:1,:]    # [12 layers, 1 output list for each layer, '<s>', 3072 neurons]
         outputs = outputs.flatten()
         
-        # Active neuron before ReLU
+    # ---- Active neuron before ReLU ------------------------------------
         neuron_before_relu = outputs.numpy().reshape((1, -1))
         neuron_before_relu = pd.DataFrame(neuron_before_relu)
         if not os.path.exists('./active_neuron_before_relu_csv'):
@@ -104,29 +86,29 @@ for sentiment in tqdm(sentiments, 'Sentiment'):
         neuron_before_relu.to_csv(f'./active_neuron_before_relu_csv/{sentiment}-{seed}.csv', index=None)
 
         per_sentiment_out_before_relu.append(neuron_before_relu)
-        
-
-        # # Active neuron after ReLU
-        # neuron_after_relu = (outputs > 0).int().numpy().reshape((1, -1))
-        # neuron_after_relu = pd.DataFrame(neuron_after_relu)
-        # if not os.path.exists('./active_neuron_after_relu_csv'):
-        #     os.makedirs('./active_neuron_after_relu_csv')
-        # neuron_after_relu.to_csv(f'./active_neuron_after_relu_csv/{sentiment}-{seed}.csv', index=None)
-
-        # per_sentiment_out_after_relu.append(neuron_after_relu)
-        
+    
     neuron_sum_before_relu = (np.stack(per_sentiment_out_before_relu, axis=0)).sum(0)
-    neuron_sum_before_relu = pd.DataFrame(per_sentiment_out_before_relu)
+    neuron_sum_before_relu = pd.DataFrame(neuron_sum_before_relu)
     neuron_sum_before_relu.to_csv(f'./active_neuron_before_relu_csv/{sentiment}-all.csv', index=None)
+    # -------------------------------------------------------------------
+
+    # ---- Active neuron after ReLU -------------------------------------
+    #     neuron_after_relu = (outputs > 0).int().numpy().reshape((1, -1))
+    #     neuron_after_relu = pd.DataFrame(neuron_after_relu)
+    #     if not os.path.exists('./active_neuron_after_relu_csv'):
+    #         os.makedirs('./active_neuron_after_relu_csv')
+    #     neuron_after_relu.to_csv(f'./active_neuron_after_relu_csv/{sentiment}-{seed}.csv', index=None)
+
+    #     per_sentiment_out_after_relu.append(neuron_after_relu)
     
     # neuron_sum_after_relu = (np.stack(per_sentiment_out_after_relu, axis=0)).sum(0)
     # neuron_sum_after_relu = pd.DataFrame(neuron_sum_after_relu)
     # neuron_sum_after_relu.to_csv(f'./active_neuron_after_relu_csv/{sentiment}-all.csv', index=None)
+    # -------------------------------------------------------------------
 
 # os.system('tar -zcvf prompt_embedding_csv.tar.gz prompt_embedding_csv')
 # os.system('tar -zcvf active_neuron_before_relu_csv.tar.gz active_neuron_before_relu_csv')
 # os.system('tar -zcvf active_neuron_after_relu_csv.tar.gz active_neuron_after_relu_csv')
-
 
 acc = pd.DataFrame(acc)
 acc = acc.sort_values(['random_seed', 'sentiment'])
