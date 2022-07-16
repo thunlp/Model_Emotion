@@ -1,13 +1,10 @@
-import copy
-import glob
 import torch
 import pickle
 import numpy as np
 import pandas as pd
+import argparse
 import os
 
-PKL_Path = './masks_linearModel/beta_3space_500_6000_1.pkl'
-CSV_Path = './LiMing_Mask/neuron_rank_by_linear_regression_3space.csv'
 
 def inverse_mask(mask):
     '''
@@ -62,69 +59,83 @@ def gen_random_mask(mask):
         random_mask[j] = 0 
     random_mask = torch.Tensor(random_mask)
     random_mask = random_mask.reshape(mask.shape)
-    print(random_mask)
+    # print(random_mask)
      
     return random_mask
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--CSV_Path', type=str, default='./neuron_rank/neuron_rank_by_searchlight_RSA_14property.csv',
+            help='Path that stores neuron rank')
+    parser.add_argument('--mode', type=str, default='14Properties',      # 3Spaces
+            help='Choose whether to use 3 Spaces or 14 Properties')
+    parser.add_argument('--mask_method', default=1, type=int,
+            help='Choose mask neuron method:\n1. 0&1 mask \n2. Float mask')
+    parser.add_argument('--PKL_File', type=str, default='./masks/RSA_14property_top_500_6000.pkl',
+            help='Path that stores masks')
+    
+    if not os.path.exists('./masks'):
+        os.makedirs('./masks')
+    
+    args = parser.parse_args()
+    
     # Number of neurons to be masked
     thresholds = [500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000]
     
-    # 3 spaces
-    cols = ['Affective.Space', 'Basic.Emotions.Space', 'Appraisal.Space']
-    
-    # # 14 properties
-    # cols = ['arousal', 'valence', 'happy', 'anger', 'sad', 'fear', 'surprise',
-    #     'disgust', 'control', 'fairness', 'self-related', 'other-related',
-    #     'expectedness', 'non-novelty', 'all_1'][:-1]
+    if args.mode == '3Spaces':
+        # 3 spaces
+        cols = ['Affective.Space', 'Basic.Emotions.Space', 'Appraisal.Space']
+    elif args.mode == '14Properties':    
+        # 14 properties
+        cols = ['arousal', 'valence', 'happy', 'anger', 'sad', 'fear', 'surprise',
+            'disgust', 'control', 'fairness', 'self-related', 'other-related',
+            'expectedness', 'non-novelty', 'all_1'][:-1]
     
     # The ranking of neurons
-    score = pd.read_csv(f'{CSV_Path}')
-    print('score: ',score.shape)
+    score = pd.read_csv(f'{args.CSV_Path}')
+    print('score shape: ',score.shape)
     
     masks = {}
     for feature in range(0,len(cols)):
         for k in thresholds:
-            print(f"{cols[feature]}\t{k}")
-            all_idx = (pd.DataFrame(score, columns=[cols[feature]])).values      # 获取一列（一个property排序）数据
+            all_idx = (pd.DataFrame(score, columns=[cols[feature]])).values      # Get a column (1 property) of data
             all_idx = (all_idx.reshape(1,12*3072))[0]
             # print("all_idx: \t",all_idx)
             all_idx = np.array(np.argsort(np.abs(all_idx)))     # Neuron sorted by importance (1 is the most important)
             remove_idx = all_idx[:k]                            # Get the top k most important neuron index
             # print("remove_idx:\t", remove_idx)
             
-            # Method 1: 0&1 mask
-            abs_mask = torch.ones(12*3072, dtype=torch.int8)
-            abs_mask[remove_idx] = 0
-            abs_mask = abs_mask.reshape(12, 3072)
+            # Method 1: 0&1 mask (default)
+            if args.mask_method == 1:
+                abs_mask = torch.ones(12*3072, dtype=torch.int8)
+                abs_mask[remove_idx] = 0
+                abs_mask = abs_mask.reshape(12, 3072)
+                
+            # Method 2: Float mask
+            elif args.mask_method == 2:
+                abs_mask = np.ones(12*3072)
+                abs_mask = np.float32(abs_mask)
+                # print(abs_mask)
+                randomMask = np.random.random(size=(k))     # Return k random floats in the half-open interval [0.0, 1.0)
+                # print(randomMask)
+                abs_mask[remove_idx] = randomMask
+                abs_mask = torch.from_numpy(abs_mask)       # Turn numpy to tensor
+                abs_mask = abs_mask.reshape(12, 3072)       # Reshape tensor
             
-            # # Method 2: Float mask
-            # abs_mask = np.ones(12*3072)
-            # abs_mask = np.float32(abs_mask)
-            # # print(abs_mask)
-            # randomMask = np.random.random(size=(k))     # Return k random floats in the half-open interval [0.0, 1.0)
-            # print(randomMask)
-            # abs_mask[remove_idx] = randomMask
-            # abs_mask = torch.from_numpy(abs_mask)       # Turn numpy to tensor
-            # abs_mask = abs_mask.reshape(12, 3072)       # Reshape tensor
-            
-            # print(abs_mask)
-            # if feature>=14:
-            #     continue
             masks[f'{cols[feature]}_top{k}'] = abs_mask
-            
-    # print(masks)
+        print(f"{cols[feature]}")
+         
+    # Generate random mask
     inverse_masks = {}
     for n, m in masks.items():
-        print(n)
-        # generate random mask
         inverse_masks[n+'_random'] = gen_random_mask(m)
 
     masks.update(inverse_masks)
     # print(masks)
-
+    
     print('Number of masks:', len(masks.keys()))
-    with open(f'{PKL_Path}', 'wb') as f:
+    
+    with open(f'{args.PKL_File}', 'wb') as f:
         pickle.dump(masks, f)       # save masks
     print("------------------------------------------")
                 
