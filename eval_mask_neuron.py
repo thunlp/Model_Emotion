@@ -4,20 +4,14 @@ os.environ['HF_HOME'] = './huggingface_cache'
 import json
 import pickle
 import argparse
-from tqdm import tqdm, trange
-import numpy as np
-import pandas as pd
+from tqdm import tqdm
 import torch
 from transformers import AutoTokenizer
-
-from framework import RobertaForMaskedLMPrompt, Trainer, get_loader
-# from gen_mask import inverse_mask
+from framework import RobertaForMaskedLMPrompt, get_loader
 
 
 nlayers = 12
 state = 'best'
-activation_func = 'none'
-
 
 def get_pred(logits):
     _, pred = torch.max(logits.view(-1, 2), 1)
@@ -26,8 +20,8 @@ def get_pred(logits):
 def accuracy(pred, label):
     return torch.mean((pred.view(-1) == label.view(-1)).type(torch.FloatTensor))
 
-def checkPathExistOrNot(folder_path):
-    if not os.path.exists(folder_path):  #判断是否存在文件夹如果不存在则创建为文件夹
+def checkIfPathExist(folder_path):
+    if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print("Make dirs:", folder_path)
     else:
@@ -40,7 +34,6 @@ def evaluate(args, model, loader, tokenizer):
 
     it = 0
     total_acc = 0
-    all_pred = []
     with torch.no_grad():
         for sentence, label in tqdm(loader, desc='Eval'):
             inputs = tokenizer(
@@ -54,7 +47,6 @@ def evaluate(args, model, loader, tokenizer):
             acc = accuracy(pred, label)
             total_acc += acc
             it += 1
-        # print("total_acc/it = ",total_acc / it)
     return total_acc / it
 
 @torch.no_grad()
@@ -119,16 +111,17 @@ def main():
             help='Pretrained LM')
     
     # Path
-    parser.add_argument('--maskPath', type=str, default='./masks_linearModel/beta_top_500_1000.pkl',
+    parser.add_argument('--maskPath', type=str, default='./masks/RSA_14property_top_500_6000.pkl',
             help='mask path')
-    parser.add_argument('--resultPath', type=str, default='./neuron/linearRegression_beta/beta_top_500_1000',
+    parser.add_argument('--resultPath', type=str, default='./eval_mask_neuron_result/RSA_14property_top_500_6000',
             help='result path')
 
     args = parser.parse_args()
     
     
-    checkPathExistOrNot(args.resultPath)
+    checkIfPathExist(args.resultPath)
     
+    # if the result already exists, skip it
     if os.path.exists(f'{args.resultPath}/{args.sentiment}-{args.random_seed}.json'):
         return
 
@@ -137,15 +130,13 @@ def main():
 
     result = {'sentiment': args.sentiment, 'seed': args.random_seed}
     for name, mask in all_mask.items():
-        if os.path.exists(f'{args.resultPath}/{args.sentiment}-{args.random_seed}.json'):
-            return
         best_acc, acc = run(args, mask)
         result[name] = acc
         result['best'] = best_acc
         print(result)
         # break
     
-    checkPathExistOrNot(f'{args.resultPath}')
+    checkIfPathExist(f'{args.resultPath}')
     with open(f'{args.resultPath}/{args.sentiment}-{args.random_seed}.json', 'w') as f:
         json.dump(result, f)    # save result
 

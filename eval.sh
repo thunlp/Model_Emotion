@@ -13,7 +13,7 @@ do
     python eval_mask_neuron.py \
     --sentiment=$sentiment \
     --random_seed=$seed \
-    --maskPath='./masks_linearModel/RSA_14property_500_6000_1.pkl' \
-    --resultPath="./neuron/new_61/RSA_14property_500_6000_1"
+    --maskPath='./masks/RSA_14property_top_500_6000.pkl' \
+    --resultPath='./eval_mask_neuron_result/RSA_14property_top_500_6000'
   done
 done
