@@ -140,7 +140,7 @@ You can evaluate  the masks by running `python eval_mask_neuron.py` or `./eval.s
 
 ### Neurons Correspond Selectively to Emotional Attributes
 
-![Neurons Correspond Selectively to Emotional Attributes](C:\Users\Celine\Desktop\Neurons Correspond Selectively to Emotional Attributes.png)
+![Neurons Correspond Selectively to Emotional Attributes](pic/Neurons_Correspond_Selectively_to_Emotional_Attributes.png)
 
 \* For each attribute, show the top 4000 neurons of correspondence.
 
@@ -148,7 +148,7 @@ You can evaluate  the masks by running `python eval_mask_neuron.py` or `./eval.s
 
 ### Accuracy after Masking Corresponding Neurons
 
- ![Acc after masking correspond neuron](C:\Users\Celine\Desktop\Acc after masking correspond neuron.png)
+ ![Acc after masking correspond neuron](pic/Acc_after_masking_correspond_neuron.png)
 
 
 
@@ -156,7 +156,7 @@ You can evaluate  the masks by running `python eval_mask_neuron.py` or `./eval.s
 We welcome everyone to contribute codes following our [contributing guidelines](https://github.com/OpenBMB/BMTrain/blob/master/CONTRIBUTING.md).
 
 You can also find us on other platforms:
-- QQ Group: 735930538
+- QQ Group: 
 - Website: 
 - Weibo: 
 - Twitter: 
