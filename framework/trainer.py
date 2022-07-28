@@ -131,7 +131,7 @@ class Trainer:
 
         all_pred = torch.cat(all_pred)
         all_label = torch.cat(all_label)
-        acc = self.accuracy(pred, label)
+        acc = self.accuracy(all_pred, all_label)
         
         self.logger.info(f'[EVAL] {log_prefix} | loss: {total_loss / it:.2f} | acc: {acc:.2%}')
         
