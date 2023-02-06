@@ -25,6 +25,9 @@
 
 <div id="overview"></div>
 
+## News
+### Refactoring: More User-friendly toolkit coming soon (03/01/2023)
+
 ## Overview
 
 OpenNeuron is a method that uses emotional prompts to obtain the activated neurons in the pre-train language model (Roberta) to figure out whether the model can pick up human emotion by studying large amounts of texts.
