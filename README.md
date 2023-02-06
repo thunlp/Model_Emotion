@@ -26,7 +26,7 @@
 <div id="overview"></div>
 
 ## News
-### Refactoring: More User-friendly toolkit coming soon (03/01/2023)
+#### Refactoring: More User-friendly toolkit coming soon (03/01/2023)
 
 ## Overview
 
