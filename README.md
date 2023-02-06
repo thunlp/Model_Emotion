@@ -1,6 +1,8 @@
 <h1><img src="docs/logo.png" height="28px" /> OpenNeuron</h1>
 
-**Activate neurons in RoBERTa**
+Neurons Mainpulation in Large-scale Language Models
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 
 <p align="center">
 	<a href="#overview">Overview</a> 
