@@ -25,7 +25,7 @@ def checkIfPathExist(folder_path):
         os.makedirs(folder_path)
         print("Make dirs:", folder_path)
     else:
-        print("Folder path already exis.")
+        print("Folder path already exist.")
 
 
 @torch.no_grad()

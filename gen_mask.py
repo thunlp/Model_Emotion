@@ -69,10 +69,12 @@ def main():
             help='Path that stores neuron rank')
     parser.add_argument('--mode', type=str, default='14Properties',      # 3Spaces
             help='Choose whether to use 3 Spaces or 14 Properties')
-    parser.add_argument('--mask_method', default=1, type=int,
-            help='Choose mask neuron method:\n1. 0&1 mask \n2. Float mask')
+    parser.add_argument('--mask_method', type=str, default='BINARY_MASK',
+            help='Choose mask neuron method:BINARY_MASK or FLOAT_MASK')
     parser.add_argument('--PKL_File', type=str, default='./masks/RSA_14property_top_500_6000.pkl',
             help='Path that stores masks')
+    
+    parser.add_argument('--thresholds', type=list, default=[500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000])
     
     if not os.path.exists('./masks'):
         os.makedirs('./masks')
@@ -80,7 +82,7 @@ def main():
     args = parser.parse_args()
     
     # Number of neurons to be masked
-    thresholds = [500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000]
+    thresholds = args.thresholds
     
     if args.mode == '3Spaces':
         # 3 spaces
@@ -106,13 +108,13 @@ def main():
             # print("remove_idx:\t", remove_idx)
             
             # Method 1: 0&1 mask (default)
-            if args.mask_method == 1:
+            if args.mask_method == 'BINARY_MASK':
                 abs_mask = torch.ones(12*3072, dtype=torch.int8)
                 abs_mask[remove_idx] = 0
                 abs_mask = abs_mask.reshape(12, 3072)
                 
             # Method 2: Float mask
-            elif args.mask_method == 2:
+            elif args.mask_method == 'FLOAT_MASK':
                 abs_mask = np.ones(12*3072)
                 abs_mask = np.float32(abs_mask)
                 # print(abs_mask)
