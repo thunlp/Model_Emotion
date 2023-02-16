@@ -1,12 +1,10 @@
 <h1><img src="docs/logo.png" height="28px" /> OpenNeuron</h1>
 
-Neurons Mainpulation in Large-scale Language Models
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
+Manipulate Neurons in Large-Scale Language Models
 
 <p align="center">
 	<a href="#overview">Overview</a> 
-    • <a href="#documentation">Documentation</a> 
+    • <a href="#news">News</a> 
     • <a href="#installation">Installation</a> 
     • <a href="#usage">Usage</a> 
     • <a href="#result">Result</a> 
@@ -23,8 +21,11 @@ Neurons Mainpulation in Large-scale Language Models
 <a href="https://github.com/OpenBMB/BMTrain/blob/main/LICENSE">
 <img alt="GitHub" src="https://img.shields.io/github/license/OpenBMB/BMTrain">
 </a>
-</p>
+<a href="https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing">
+<img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg">
+</a>
 
+</p>
 
 
 <div id="overview"></div>
@@ -33,16 +34,12 @@ Neurons Mainpulation in Large-scale Language Models
 
 OpenNeuron is a method that uses emotional prompts to obtain the activated neurons in the pre-train language model (PLM) to figure out whether the model can pick up human emotion by studying large amounts of texts.
 
-<h3> </br>
-
-<div id="News"></div>
+<div id="news"></div>
 
 ## News
 - 2023.02.15 Support RoBERTa.
 
 - 2023.03.20 More supported models coming soon...
-
-<h3> </br>
 
 <div id="installation"></div>
 
@@ -54,7 +51,6 @@ conda activate openNeuron
 pip install -r requirements.txt
 ```
 
-<h3> </br>
 
 <div id="usage"></div>
 
@@ -76,10 +72,7 @@ python train.py \
     --epochs=10 \
     --train_batch_size=16 \
     --eval_batch_size=32
-``` 
-
-
-<h3> </br>
+```
 
 
 ### **Step 2: Activate Neurons in Model**
@@ -92,23 +85,17 @@ python get_active_neuron.py --activation_mode='before_relu'
 python get_active_neuron.py --activation_mode='after_relu'
 ```
 
-
-<h3> </br>
-
 ### **Step 4: Sort Activated Neurons by RSA Seachlight**
 
 **Methods for Sorting Neurons**
 
-* `14Properties` [DEFAULT]
+* `14Properties` [ DEFAULT ]
 
   TODO
 * `3Spaces`: Affective Space, Basic Emotions Space, Appraisal Space
 
   TODO
 
-
-
-<h3> </br>
 
 ### **Step 5: Generate Masks Based on the Importance of Neurons**
 
@@ -118,7 +105,7 @@ In the `gen_mask.py`, we provide several methods for masking the neurons and gen
 
 **Methods for Masking Neurons**
 
-* `BINARY_MASK` [DEFAULT]
+* `BINARY_MASK` [ DEFAULT ]
 
   Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons.
 * `FLOAT_MASK`
@@ -137,8 +124,6 @@ python gen_mask.py \
 ```
 
 
-<h3> </br>
-
 
 ### **Step 6: Evaluate Masked Neurons**
 
@@ -153,8 +138,6 @@ python eval_mask_neuron.py \
     --resultPath='./eval_mask_neuron_result/RSA_14property_top_500_6000'
 ```
 
-<h3> </br>
-<hr/>
 
 <div id="result"></div>
 
@@ -190,3 +173,4 @@ The package is released under the [Apache 2.0](https://github.com/OpenBMB/BMTrai
 
 `BMTrain` makes underlying changes to PyTorch, so if your program outputs unexpected results, you can submit information about it in an issue.
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
