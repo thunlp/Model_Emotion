@@ -25,119 +25,136 @@ Neurons Mainpulation in Large-scale Language Models
 </a>
 </p>
 
-<div id="overview"></div>
 
-## News
-#### Refactoring: More User-friendly toolkit coming soon (03/01/2023)
+
+<div id="overview"></div>
 
 ## Overview
 
-OpenNeuron is a method that uses emotional prompts to obtain the activated neurons in the pre-train language model (Roberta) to figure out whether the model can pick up human emotion by studying large amounts of texts.
+OpenNeuron is a method that uses emotional prompts to obtain the activated neurons in the pre-train language model (PLM) to figure out whether the model can pick up human emotion by studying large amounts of texts.
 
-<div id="documentation"></div>
+<h3> </br>
 
-## Documentation
-Our [documentation](https://bmtrain.readthedocs.io/en/latest/index.html) provides more information about the package.
+<div id="News"></div>
+
+## News
+- 2023.02.15 Support RoBERTa.
+
+- 2023.03.20 More supported models coming soon...
+
+<h3> </br>
 
 <div id="installation"></div>
 
 ## Installation
+To set up the environment, run the following code in bash:
+```bash
+conda create -n openNeuron python=3.8
+conda activate openNeuron
+pip install -r requirements.txt
+```
 
-- From pip （recommend） : ``pip install -r requirements.txt``
-
+<h3> </br>
 
 <div id="usage"></div>
 
 ## Usage
 
-### Step 1: Train Emotional Prompt
+### **Step 1: Train Emotional Prompt**
 
-Before activating neurons in the pretrain language model, we need emotional prompts to change the attention distribution in the model. 
+Before activating neurons in the PLMs, we need emotional prompts to change the attention distribution in the model. 
 
 We use **[GoEmotions](https://doi.org/10.48550/arXiv.2005.00547)** as the prompt training dataset. It is the largest manually annotated dataset of 58k English Reddit comments, labeled for 27 emotion categories or Neutral. It has been proved that it can generalize well to other domains and different emotion taxonomies.
 
 In ``train.py``, we define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
 
-You can train all 27 prompts by using `./train.sh` or `python train.py`.  
-
-After training, you will get **27×12** checkpoints.
-
-
-
-
-### Step 2: Modify RoBERTa
-
-To load prompts in RoBERTa, we need to make some changes in the original code of ``transformers.models.roberta.modeling_roberta``. 
-
-* `RobertaForMaskedLM` -> `framework.roberta.RobertaForMaskedLMPrompt`
-* `RobertaLMHead` -> `framework.roberta.RobertaLMHeadWarp` 
-* `RobertaEmbeddings` -> `framework.roberta.RobertaEmbeddingsWarp`
-* `RobertaModel` -> `framework.roberta.RobertaModelWarp`
+You can train all 27 prompts by running the default script `./train.sh` in bash or the following script: 
+```bash
+python train.py \
+    --sentiment='joy' \
+    --random_seed=1 \
+    --epochs=10 \
+    --train_batch_size=16 \
+    --eval_batch_size=32
+``` 
 
 
+<h3> </br>
 
-### Step 3: Activate Neurons in RoBERTa
+
+### **Step 2: Activate Neurons in Model**
 
 We use the special token '**\<s>**' to activate the neurons in RoBERTa.
 
-RoBERTa has 12 following layers.  ( You can view the complete model by using `print(model)` )
-
-**The Activated Neurons** are the output of the intermediate layer between two Feed-Forward Networks.
-
-```
-RobertaLayer(
-       (attention): RobertaAttention(...)
-       (intermediate): RobertaIntermediate(
-          (dense): Linear(in_features=768, out_features=3072, bias=True)
-          (intermediate_act_fn): GELUActivation()
-       )
-       (output): RobertaOutput(...)
-     )
+The **activated neurons** of the model are the output of the `intermediate` layer between two Feed-Forward Networks. You can get the activated neurons `before` or `after` the activation function `ReLU` by running:
+```bash
+python get_active_neuron.py --activation_mode='before_relu'
+python get_active_neuron.py --activation_mode='after_relu'
 ```
 
-You can get the activated neurons by running `python get_active_neuron.py`
+
+<h3> </br>
+
+### **Step 4: Sort Activated Neurons by RSA Seachlight**
+
+**Methods for Sorting Neurons**
+
+* `14Properties` [DEFAULT]
+
+  TODO
+* `3Spaces`: Affective Space, Basic Emotions Space, Appraisal Space
+
+  TODO
 
 
 
-### Step 4: Sort Activated Neurons by RSA Seachlight
+<h3> </br>
 
+### **Step 5: Generate Masks Based on the Importance of Neurons**
 
+After getting the neurons sorted out, we will generate masks for the top k important neurons. We will also generate random masks for setting the baseline.
 
+In the `gen_mask.py`, we provide several methods for masking the neurons and generating random masks.
 
+**Methods for Masking Neurons**
 
+* `BINARY_MASK` [DEFAULT]
 
+  Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons.
+* `FLOAT_MASK`
 
-### Step 5: Generate Masks Based on Importance of Neurons
+  Use random floats in the half-open interval [0.0, 1.0) to represent the mask neurons
 
-After getting the neurons sorted out, we will generate masks for the top k important neurons, and we will also generate random masks for setting the baseline.
+You can get the masks by running the following script:
 
-In the `gen_mask.py`, we provide several methods for masking the neurons and generate random masks.
-
-**Methods of masking neurons**
-
-* 0&1 mask (Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons)
-* Float mask (Use random floats in the half-open interval [0.0, 1.0) to represent the mask neurons)
-
-You can get the masks by running `python gen_mask.py`
-
-```shell
+```bash
 python gen_mask.py \
 --CSV_Path='./neuron_rank/neuron_rank_by_searchlight_RSA_14property.csv' \
 --mode='14Properties' \
---mask_method=1 \
---PKL_File='./masks/RSA_14property_top_500_6000.pkl'
+--mask_method='BINARY_MASK' \
+--PKL_File='./masks/RSA_14property_top_500_6000.pkl' \
+--thresholds=[500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000]
 ```
 
 
+<h3> </br>
 
 
-### Step 6: Evaluate Masked Neurons
+### **Step 6: Evaluate Masked Neurons**
 
 We evaluate the masked neurons using the modified RoBERTa model loaded with the prompt to do the binary classification task. Each time the forward layer of the intermediate module is called, we multiply the corresponding mask by the layer's output.
 
-You can evaluate  the masks by running `python eval_mask_neuron.py` or `./eval.sh`
+You can evaluate  the masks by running the default script `./eval.sh` in bash or :
+```bash
+python eval_mask_neuron.py \
+    --sentiment='joy' \
+    --random_seed=1 \
+    --maskPath='./masks/RSA_14property_top_500_6000.pkl' \
+    --resultPath='./eval_mask_neuron_result/RSA_14property_top_500_6000'
+```
 
-
+<h3> </br>
+<hr/>
 
 <div id="result"></div>
 
@@ -145,7 +162,7 @@ You can evaluate  the masks by running `python eval_mask_neuron.py` or `./eval.s
 
 ### Neurons Correspond Selectively to Emotional Attributes
 
-![Neurons Correspond Selectively to Emotional Attributes](pic/Neurons_Correspond_Selectively_to_Emotional_Attributes.png)
+![Neurons Correspond Selectively to Emotional Attributes](../../../VSCode/OpenNeuron/pic/Neurons_Correspond_Selectively_to_Emotional_Attributes.png)
 
 \* For each attribute, show the top 4000 neurons of correspondence.
 
@@ -153,7 +170,7 @@ You can evaluate  the masks by running `python eval_mask_neuron.py` or `./eval.s
 
 ### Accuracy after Masking Corresponding Neurons
 
- ![Acc after masking correspond neuron](pic/Acc_after_masking_correspond_neuron.png)
+ ![Acc after masking correspond neuron](../../../VSCode/OpenNeuron/pic/Acc_after_masking_correspond_neuron.png)
 
 
 
