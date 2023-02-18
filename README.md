@@ -190,11 +190,16 @@ The package is released under the [Apache 2.0](https://github.com/OpenBMB/BMTrai
 -->
 
 ## Contact
-[Yusheng Su](https://yushengsu-thu.github.io/)
+Yusheng Su (https://yushengsu-thu.github.io/)
 
 Mail: yushengsu.thu@gmail.com; suys19@mauls.tsinghua.edu.cn
 
 
-[Ming Li]
+Ming Li
 
 Mail: liming16@tsinghua.org.cn
+
+
+Xiuyuan Huang
+
+Mail: 
