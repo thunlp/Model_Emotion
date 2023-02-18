@@ -30,12 +30,13 @@
 <a href="https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing">
 <img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg">
 </a>
-
 </p>
 
 
-![Human Emotion Knowledge Representation Emerges in Large Language Models and Supports Discrete Emotion Inference![image](pic/cover.png)
-
+<p align="center">
+<img src="pic/cover.png" height="42px" />
+<!--![Human Emotion Knowledge Representation Emerges in Large Language Models and Supports Discrete Emotion Inference![image](pic/cover.png)-->
+</p>
 
 <div id="overview"></div>
 
