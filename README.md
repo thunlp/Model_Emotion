@@ -13,7 +13,10 @@ This is the toolkit to explore the emerging emotion concept in Large-Scale Langu
     • <a href="./README-ZH.md" target="_blank">简体中文</a>
 </p>
 
+
 <p align="center">
+	
+<!--	
 <a href='https://bmtrain.readthedocs.io/en/latest/?badge=latest'>
 <img src='https://readthedocs.org/projects/bmtrain/badge/?version=latest' alt='Documentation Status'>
 </a>
@@ -23,6 +26,8 @@ This is the toolkit to explore the emerging emotion concept in Large-Scale Langu
 <a href="https://github.com/OpenBMB/BMTrain/blob/main/LICENSE">
 <img alt="GitHub" src="https://img.shields.io/github/license/OpenBMB/BMTrain">
 </a>
+-->
+	
 <a href="https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing">
 <img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg">
 </a>
