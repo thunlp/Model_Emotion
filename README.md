@@ -1,4 +1,6 @@
-<h1><img src="pic/emotions_fig.png" height="28px" /> Model Emotion</h1>
+<!--<h1><img src="pic/emotions_fig.png" height="28px" /> Model Emotion</h1>-->
+
+<h1><img src="pic/emotions_fig.png" height="36px" /> Model Emotion</h1>
 
 This is the toolkit to explore the emerging emotion concept in Large-Scale Language Models.
 
