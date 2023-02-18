@@ -161,7 +161,7 @@ python eval_mask_neuron.py \
  ![Acc after masking correspond neuron](pic/Acc_after_masking_correspond_neuron.png)
 
 
-
+<!--
 ## Community
 We welcome everyone to contribute codes following our [contributing guidelines](https://github.com/OpenBMB/BMTrain/blob/master/CONTRIBUTING.md).
 
@@ -170,12 +170,24 @@ You can also find us on other platforms:
 - Website: 
 - Weibo: 
 - Twitter: 
+-->
 
+<!--
 ## License
 The package is released under the [Apache 2.0](https://github.com/OpenBMB/BMTrain/blob/master/LICENSE) License.
+-->
 
+<!--
 ## Other Notes
 
 `BMTrain` makes underlying changes to PyTorch, so if your program outputs unexpected results, you can submit information about it in an issue.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
+-->
+
+## Contact
+[Yusheng Su](https://yushengsu-thu.github.io/)
+Mail: yushengsu.thu@gmail.com; suys19@mauls.tsinghua.edu.cn
+
+[Ming Li]()
+Mail: 
