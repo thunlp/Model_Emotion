@@ -1,6 +1,6 @@
 <!--<h1><img src="pic/emotions_fig.png" height="28px" /> Model Emotion</h1>-->
 
-<h1><img src="pic/human_emotion.jpg" height="42px" /> Model Emotion</h1>
+<h1><img src="pic/human_emotion.png" height="42px" /> Model Emotion</h1>
 
 
 <p align="center">
@@ -34,7 +34,7 @@
 
 
 <p align="center">
-<img src="pic/cover.png" height="256px" />
+<img src="pic/cover.jpg" height="256px" />
 <!--![Human Emotion Knowledge Representation Emerges in Large Language Models and Supports Discrete Emotion Inference![image](pic/cover.png)-->
 </p>
 
