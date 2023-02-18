@@ -34,7 +34,7 @@
 
 
 <p align="center">
-<img src="pic/cover.png" height="42px" />
+<img src="pic/cover.png" height="96px" />
 <!--![Human Emotion Knowledge Representation Emerges in Large Language Models and Supports Discrete Emotion Inference![image](pic/cover.png)-->
 </p>
 
