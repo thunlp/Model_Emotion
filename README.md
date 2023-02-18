@@ -2,7 +2,6 @@
 
 <h1><img src="pic/human_emotion.png" height="42px" /> Model Emotion</h1>
 
-This is the toolkit to explore the emerging emotion concept in Large-Scale Language Models.
 
 <p align="center">
 	<a href="#overview">Overview</a> 
@@ -38,8 +37,7 @@ This is the toolkit to explore the emerging emotion concept in Large-Scale Langu
 <div id="overview"></div>
 
 ## Overview
-
-OpenNeuron is a method that uses emotional prompts to obtain the activated neurons in the pre-train language model (PLM) to figure out whether the model can pick up human emotion by studying large amounts of texts.
+This is the toolkit to explore the emerging emotion concept in Large-Scale Language Models. Specifically, we can utilize this toolkit to observe the human emotion knowledge representation emerges in large language models and supports discrete emotion inference.
 
 <div id="news"></div>
 
