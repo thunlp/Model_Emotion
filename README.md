@@ -34,6 +34,9 @@
 </p>
 
 
+![Human Emotion Knowledge Representation Emerges in Large Language Models and Supports Discrete Emotion Inference![image](pic/cover.png)
+
+
 <div id="overview"></div>
 
 ## Overview
