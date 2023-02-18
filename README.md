@@ -1,6 +1,6 @@
-<h1><img src="docs/logo.png" height="28px" /> OpenNeuron</h1>
+<h1><img src="docs/logo.png" height="28px" /> Model Emotion</h1>
 
-Manipulate Neurons in Large-Scale Language Models
+This is the toolkit to explore the emerging emotion concept in Large-Scale Language Models.
 
 <p align="center">
 	<a href="#overview">Overview</a> 
