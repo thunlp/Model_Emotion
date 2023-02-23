@@ -65,33 +65,73 @@ pip install -r requirements.txt
 
 ## Usage
 
-### **Step 1: Train Emotional Prompt**
+Please refer to `Model_Emotion-2.0-latest/train.py` for a full example.
+
+### **Step 1: Arguments**
+Before running any experiments, we need to set the correct arguments. We extend the original `transformers.TrainingArguments`. Please refer to `transformers` documentation and `./Model_Emotion-2.0-latest/framework/training_args.py` for the full list of arguments. 
+For most arguments, the default values work fine. Here are some important parameters you may want to change.
+
+```
+output_dir: Required. Output directory for checkpoint, results, etc. E.g. 'outputs'.
+backbone: The PLM to use. E.g. 'roberta-base'.
+prompt_len: The number of soft prompt tokens. E.g. 100.
+sentiment: The emotion to use. See the below section for more details. E.g. 'surprise'.
+max_source_length: The maximum length of input. E.g. 128.
+```
+
+An example of using the CLI arguments is shown below
+```
+--output_dir outupts \
+--backbone roberta-base \
+--prompt_len 100 \
+--sentiment surprise \
+--max_source_length 128
+```
+
+In Python scripts, you can use the following code to generate the arguments
+
+```python
+from framework.training_args import ModelEmotionArguments
+
+args = ModelEmotionArguments()
+```
+
+### **Step 2: Train Emotional Prompt**
 
 Before activating neurons in the PLMs, we need emotional prompts to change the attention distribution in the model. 
 
 We use **[GoEmotions](https://doi.org/10.48550/arXiv.2005.00547)** as the prompt training dataset. It is the largest manually annotated dataset of 58k English Reddit comments, labeled for 27 emotion categories or Neutral. It has been proved that it can generalize well to other domains and different emotion taxonomies.
 
-In ``train.py``, we define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
+We define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
 
-You can train all 27 prompts by running the default script `./train.sh` in bash or the following script: 
-```bash
-python train.py \
-    --sentiment='joy' \
-    --random_seed=1 \
-    --epochs=10 \
-    --train_batch_size=16 \
-    --eval_batch_size=32
+You can train prompt for a given emotion by running the following function: 
+```python
+from transformers import tokenizer
+from framework import RobertaForMaskedLMPrompt
+
+tokenizer = AutoTokenizer.from_pretrained(args.backbone, max_length=args.max_source_length, use_fast=False)
+model = RobertaForMaskedLMPrompt.from_pretrained(args.backbone, prompt_len=args.prompt_len, num_labels=2)
+
+# Initialize trainer
+trainer = ModelEmotionTrainer(
+    args=args,
+    model=model,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics)
+
+# Train
+train_result = trainer.train_prompt()
+eval_result = trainer.eval_prompt()
 ```
 
 
-### **Step 2: Activate Neurons in Model**
+### **Step 3: Activate Neurons in Model**
 
 We use the special token '**\<s>**' to activate the neurons in RoBERTa.
 
 The **activated neurons** of the model are the output of the `intermediate` layer between two Feed-Forward Networks. You can get the activated neurons `before` or `after` the activation function `ReLU` by running:
-```bash
-python get_active_neuron.py --activation_mode='before_relu'
-python get_active_neuron.py --activation_mode='after_relu'
+```python
+neuron_before_relu, neuron_after_relu = trainer.activated_neuron()
 ```
 
 ### **Step 4: Sort Activated Neurons by RSA Seachlight**
@@ -110,7 +150,7 @@ python get_active_neuron.py --activation_mode='after_relu'
 
 After getting the neurons sorted out, we will generate masks for the top k important neurons. We will also generate random masks for setting the baseline.
 
-In the `gen_mask.py`, we provide several methods for masking the neurons and generating random masks.
+In the `ModelEmotionTrainer.mask_activated_neuron`, we provide several methods for generating random masks and evaluating model's performance with the generated mask. 
 
 **Methods for Masking Neurons**
 
@@ -123,18 +163,13 @@ In the `gen_mask.py`, we provide several methods for masking the neurons and gen
 
 You can get the masks by running the following script:
 
-```bash
-python gen_mask.py \
---CSV_Path='./neuron_rank/neuron_rank_by_searchlight_RSA_14property.csv' \
---mode='14Properties' \
---mask_method='BINARY_MASK' \
---PKL_File='./masks/RSA_14property_top_500_6000.pkl' \
---thresholds=[500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000]
+```python
+eval_results, mask = trainer.mask_activated_neuron()
 ```
 
 
 
-### **Step 6: Evaluate Masked Neurons**
+<!-- ### **Step 6: Evaluate Masked Neurons**
 
 We evaluate the masked neurons using the modified RoBERTa model loaded with the prompt to do the binary classification task. Each time the forward layer of the intermediate module is called, we multiply the corresponding mask by the layer's output.
 
@@ -145,7 +180,7 @@ python eval_mask_neuron.py \
     --random_seed=1 \
     --maskPath='./masks/RSA_14property_top_500_6000.pkl' \
     --resultPath='./eval_mask_neuron_result/RSA_14property_top_500_6000'
-```
+``` -->
 
 
 <div id="result"></div>
