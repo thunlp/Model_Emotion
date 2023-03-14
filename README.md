@@ -227,6 +227,7 @@ The package is released under the [Apache 2.0](https://github.com/OpenBMB/BMTrai
 -->
 
 
+## Citation
 
 Please cite our paper if it is helpful to your work!
 
@@ -239,7 +240,6 @@ Please cite our paper if it is helpful to your work!
   publisher = {arXiv},
   year = {2023},
   copyright = {arXiv.org perpetual, non-exclusive license}
-}
 }
 ```
 
