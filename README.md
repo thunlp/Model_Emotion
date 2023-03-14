@@ -46,9 +46,11 @@ This is the toolkit to explore the emerging emotion concept in Large-Scale Langu
 <div id="news"></div>
 
 ## News
-- 2023.02.15 These codes support you to access RoBERTa to explore the humna-like emotion concepts.
-- 2023.02.20 The version2.0 supports you to access any existing pre-trained language models o explore the humna-like emotion concepts.
-- 2023.03.30 (Expected) We will provide more user-friendly API to enable non-CS background research to play our codes.
+- (Expected) 2023.03.30:  We will provide more user-friendly API to enable non-CS background research to play our codes.
+- 2023.02.20: The version2.0 supports you to access any existing pre-trained language models o explore the humna-like emotion concepts.
+- 2023.02.15: These codes support you to access RoBERTa to explore the humna-like emotion concepts.
+
+
 
 <div id="installation"></div>
 
