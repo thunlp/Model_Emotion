@@ -226,6 +226,25 @@ The package is released under the [Apache 2.0](https://github.com/OpenBMB/BMTrai
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VCSIDaX_pgkrSjzouaNH14D8Fo7G9GBz?usp=sharing)
 -->
 
+
+
+Please cite our paper if it is helpful to your work!
+
+```bibtex
+@misc{https://doi.org/10.48550/arxiv.2302.09582,
+  doi = {10.48550/ARXIV.2302.09582},
+  url = {https://arxiv.org/abs/2302.09582},
+  author = {Li, Ming and Su, Yusheng and Huang, Hsiu-Yuan and Cheng, Jiali and Hu, Xin and Zhang, Xinmiao and Wang, Huadong and Qin, Yujia and Wang, Xiaozhi and Liu, Zhiyuan and Zhang, Dan},
+  title = {Human Emotion Knowledge Representation Emerges in Large Language Model and Supports Discrete Emotion Inference},
+  publisher = {arXiv},
+  year = {2023},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+}
+```
+
+
+
 ## Contact
 - [Yusheng Su](https://yushengsu-thu.github.io/): yushengsu.thu@gmail.com; suys19@mauls.tsinghua.edu.cn
 
