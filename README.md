@@ -1,6 +1,6 @@
 <!--<h1><img src="pic/emotions_fig.png" height="28px" /> Model Emotion</h1>-->
 
-<h1><img src="Model_Emotion/pic/human_emotion.png" height="42px" /> Model Emotion</h1>
+<h1><img src="pic/human_emotion.png" height="42px" /> Model Emotion</h1>
 
 
 <p align="center">
