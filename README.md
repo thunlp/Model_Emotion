@@ -51,10 +51,6 @@ This toolkit can help explore the emerging emotion concept in Large-Scale Langua
 
 You could refer environment.yml for more details.
 
-**Requirements**
-```bash
-pip install -r requirements.txt
-```
 
 <div id="news"></div>
 
@@ -80,38 +76,72 @@ pip install -r requirements.txt
 
 ## Usage
 
+#### Quick Example
+The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`
+
+```python
+from transformers import tokenizer
+from framework import RobertaForMaskedLMPrompt
+from framework.training_args import ModelEmotionArguments
+
+# Training config
+args = ModelEmotionArguments(
+  output_dir='outputs',
+  backbone='roberta-base',
+  prompt_len=100,
+  sentiment='surprise'
+)
+
+tokenizer = AutoTokenizer.from_pretrained(args.backbone, max_length=args.max_source_length, use_fast=False)
+model = RobertaForMaskedLMPrompt.from_pretrained(args.backbone, prompt_len=args.prompt_len, num_labels=2)
+
+# Initialize trainer
+trainer = ModelEmotionTrainer(
+    args=args,
+    model=model,
+    tokenizer=tokenizer,
+    compute_metrics=compute_metrics)
+
+# Train prompt
+train_result = trainer.train_prompt()
+eval_result = trainer.eval_prompt()
+
+# Find activated neuron
+neuron_before_relu, neuron_after_relu = trainer.activated_neuron()
+
+# Mask neurons for evaluation
+eval_results, mask = trainer.mask_activated_neuron()
+
+```
+
+#### Detailed Usage
 Please refer to `Model_Emotion-2.0-latest/train.py` for a full example.
 
-### **Step 1: Arguments**
+#### **Step 1: Arguments**
 Before running any experiments, we need to set the correct arguments. We extend the original `transformers.TrainingArguments`. Please refer to `transformers` documentation and `./Model_Emotion-2.0-latest/framework/training_args.py` for the full list of arguments. 
 For most arguments, the default values work fine. Here are some important parameters you may want to change.
 
-```
-output_dir: Required. Output directory for checkpoint, results, etc. E.g. 'outputs'.
-backbone: The PLM to use. E.g. 'roberta-base'.
-prompt_len: The number of soft prompt tokens. E.g. 100.
-sentiment: The emotion to use. See the below section for more details. E.g. 'surprise'.
-max_source_length: The maximum length of input. E.g. 128.
-```
+- `output_dir`: Required. Output directory for checkpoint, results, etc. E.g. 'outputs'.
+- `backbone`: The PLM to use. E.g. 'roberta-base'.
+- `prompt_len`: The number of soft prompt tokens. E.g. 100.
+- `sentiment`: The emotion to use. See the below section for more details. E.g. 'surprise'.
+- `max_source_length`: The maximum length of input. E.g. 128.
 
-An example of using the CLI arguments is shown below
-```
---output_dir outupts \
---backbone roberta-base \
---prompt_len 100 \
---sentiment surprise \
---max_source_length 128
-```
 
-In Python scripts, you can use the following code to generate the arguments
+In Python scripts, you can use the following code to set the arguments
 
 ```python
 from framework.training_args import ModelEmotionArguments
 
-args = ModelEmotionArguments()
+args = ModelEmotionArguments(
+  output_dir='outputs',
+  backbone='roberta-base',
+  prompt_len=100,
+  sentiment='surprise'
+)
 ```
 
-### **Step 2: Train Emotional Prompt**
+#### **Step 2: Train Emotional Prompt**
 
 Before activating neurons in the PLMs, we need emotional prompts to change the attention distribution in the model. 
 
@@ -140,7 +170,7 @@ eval_result = trainer.eval_prompt()
 ```
 
 
-### **Step 3: Activate Neurons in Model**
+###### **Step 3: Activate Neurons in Model**
 
 We use the special token '**\<s>**' to activate the neurons in RoBERTa.
 
@@ -149,7 +179,7 @@ The **activated neurons** of the model are the output of the `intermediate` laye
 neuron_before_relu, neuron_after_relu = trainer.activated_neuron()
 ```
 
-### **Step 4: Sort Activated Neurons by RSA Seachlight**
+#### **Step 4: Sort Activated Neurons by RSA Seachlight**
 
 **Methods for Sorting Neurons**
 
@@ -161,7 +191,7 @@ neuron_before_relu, neuron_after_relu = trainer.activated_neuron()
   TODO
 
 
-### **Step 5: Generate Masks Based on the Importance of Neurons**
+#### **Step 5: Generate Masks Based on the Importance of Neurons**
 
 After getting the neurons sorted out, we will generate masks for the top k important neurons. We will also generate random masks for setting the baseline.
 
