@@ -53,7 +53,9 @@ To set up the environment, run the following code in bash:
 conda create -n openNeuron python=3.8
 conda activate openNeuron
 pip install -r requirements.txt
+pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 ```
+If the system shows error about the torch, please find the proper version that can matches your CPUs or GPUs.
 
 
 <div id="usage"></div>
