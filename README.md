@@ -163,9 +163,7 @@ args = ModelEmotionArguments(
 
 #### **Step 2: Train Emotional Prompt**
 
-Before activating neurons in the PLMs, we need emotional prompts to change the attention distribution in the model. 
-
-We use **[GoEmotions](https://doi.org/10.48550/arXiv.2005.00547)** as the prompt training dataset. It is the largest manually annotated dataset of 58k English Reddit comments, labeled for 27 emotion categories or Neutral. It has been proved that it can generalize well to other domains and different emotion taxonomies. We define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
+Before activating neurons in the PLMs, we need emotional prompts to change the attention distribution in the model. We use **[GoEmotions](https://doi.org/10.48550/arXiv.2005.00547)** as the prompt training dataset. It is the largest manually annotated dataset of 58k English Reddit comments, labeled for 27 emotion categories or Neutral. It has been proved that it can generalize well to other domains and different emotion taxonomies. We define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
 
 You can train prompt for a given emotion by running the following function: 
 ```python
