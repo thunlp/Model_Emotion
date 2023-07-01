@@ -8,6 +8,8 @@ log
 neuron_rank
 masks
 
+g.sh
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
