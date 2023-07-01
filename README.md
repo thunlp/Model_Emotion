@@ -78,6 +78,28 @@ pip install -r requirements.txt
 ```
 
 
+
+## Setups
+- python==3.8.0
+
+We recommend to create a new Anaconda environment to manage the required packages. 
+```bash
+conda create -n openNeuron python=3.8
+conda activate openNeuron
+pip install -r requirements.txt
+```
+If the system shows `ERROR: Invalid requirement: 'torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0' (from line 10 of requirements.txt)`. Please manually run `pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html`.
+
+
+User can also directly create the environment via `Model_Emotion-2.0-latest/environment.yml`.
+```bash
+conda env create -f environment.yml
+```
+
+
+
+
+
 <div id="usage"></div>
 
 ## Usage
