@@ -96,7 +96,7 @@ conda env create -f environment.yml
 
 ## Usage
 
-#### Quick Example
+### Quick Example
 The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`. Please refer to `Model_Emotion-2.0-latest/train.py` for a full example.
 
 ```python
