@@ -121,6 +121,12 @@ After getting the neurons sorted out, we will generate masks for the top k impor
 **Methods for Masking Neurons**
 
 You can get the masks by running the following script:
+* `BINARY_MASK` [ DEFAULT ]
+
+  Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons.
+* `FLOAT_MASK`
+
+  Use random floats in the half-open interval [0.0, 1.0) to represent the mask neurons
 
 ```bash
 python gen_mask.py \
@@ -131,12 +137,7 @@ python gen_mask.py \
 --thresholds=[500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000]
 ```
 
-* `BINARY_MASK` [ DEFAULT ]
 
-  Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons.
-* `FLOAT_MASK`
-
-  Use random floats in the half-open interval [0.0, 1.0) to represent the mask neurons
 
 
 
