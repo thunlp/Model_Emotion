@@ -56,7 +56,7 @@ This toolkit can help explore the emerging emotion concept in Large-Scale Langua
 
 ## Note
 - [Model_Emotion-1.0](https://github.com/thunlp/Model_Emotion/tree/main/Model_Emotion-1.0) provides the original codes and details to reproduce the results in the paper.
-- [Model_Emotion-2.0-latest](https://github.com/thunlp/Model_Emotion/tree/main) refactors the Prompt-Transferability-1.0 and provides more user-friendly codes for users. In this `README.md`, we mainly demostrate the usage of the `Model_Emotion-2.0-latest`.
+- [Model_Emotion-2.0-latest](https://github.com/thunlp/Model_Emotion/tree/main) refactors the Model_Emotion-1.0 and provides more user-friendly codes for users. In this `README.md`, we mainly demostrate the usage of the `Model_Emotion-2.0-latest`.
 
 <!--
 ## Setups
