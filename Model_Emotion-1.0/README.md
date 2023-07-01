@@ -104,10 +104,14 @@ python get_active_neuron.py --activation_mode='after_relu'
 **Methods for Sorting Neurons**
 
 * `14Properties` [ DEFAULT ]
-- Excute codes in `code_for_analysis`
+```
+Excute codes in `code_for_analysis`
+```
     
 * `3Spaces`: Affective Space, Basic Emotions Space, Appraisal Space
-- Excute codes in `code_for_analysis`
+```
+Excute codes in `code_for_analysis`
+```
 
 
 ### **Step 5: Generate Masks Based on the Importance of Neurons**
