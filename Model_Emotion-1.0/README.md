@@ -43,12 +43,7 @@
 ## Overview
 This is the toolkit to explore the emerging emotion concept in Large-Scale Language Models. Specifically, we can utilize this toolkit to observe the human emotion knowledge representation emerges in large language models and supports discrete emotion inference.
 
-<div id="news"></div>
 
-## News
-- 2023.02.15 Support RoBERTa.
-
-- 2023.03.20 More supported models coming soon...
 
 <div id="installation"></div>
 
