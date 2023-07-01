@@ -64,18 +64,28 @@ pip install -r requirements.txt
 
 Before activating neurons in the PLMs, we need emotional prompts to change the attention distribution in the model. 
 
-We use **[GoEmotions](https://doi.org/10.48550/arXiv.2005.00547)** as the prompt training dataset. It is the largest manually annotated dataset of 58k English Reddit comments, labeled for 27 emotion categories or Neutral. It has been proved that it can generalize well to other domains and different emotion taxonomies.
+We use **[GoEmotions](https://doi.org/10.48550/arXiv.2005.00547)** as the prompt training dataset. It is the largest manually annotated dataset of 58k English Reddit comments, labeled for 27 emotion categories or Neutral. It has been proved that it can generalize well to other domains and different emotion taxonomies. We define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
 
-In ``train.py``, we define **27 Emotional tasks** according to the labels of **GoEmotions**. Each one of the tasks was trained by **12 Random Seeds** (Data used for training will slightly differ when using different random seeds).
-
-You can train all 27 prompts by running the default script `./train.sh` in bash or the following script: 
+You can train all 27 prompts by running the default script `train.sh`: 
 ```bash
-python train.py \
-    --sentiment='joy' \
-    --random_seed=1 \
-    --epochs=10 \
+for sentiment in 'realization' 'surprise' 'admiration' 'gratitude' 'optimism' 'approval' \
+                 'pride' 'excitement' 'joy' 'love' 'amusement' 'caring' \
+                 'relief' 'curiosity' 'desire' 'disgust' 'disapproval' 'anger' \
+                 'annoyance' 'confusion' 'fear' 'disappointment' 'grief' 'sadness' \
+                 'nervousness' 'embarrassment' 'remorse'
+do
+  for seed in {1,3,5,7,9,11,13,15,17,19,42,100}
+  do
+    echo "sentiment=$sentiment,random_seed=$seed"
+    CUDA_VISIBLE_DEVICES=0 \
+    python train.py \
+    --sentiment=$sentiment \
+    --random_seed=$seed \
+    --epochs=2 \
     --train_batch_size=16 \
     --eval_batch_size=32
+  done
+done
 ```
 
 
