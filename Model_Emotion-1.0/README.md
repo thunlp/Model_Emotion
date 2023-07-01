@@ -91,7 +91,7 @@ done
 
 ### **Step 2: Activate Neurons in Model**
 
-We use the special token '**\<s>**' to activate the neurons in RoBERTa.
+We use the `get_active_neuron.py` and special token '**\<s>**' to activate the neurons in RoBERTa.
 
 The **activated neurons** of the model are the output of the `intermediate` layer between two Feed-Forward Networks. You can get the activated neurons `before` or `after` the activation function `ReLU` by running:
 ```bash
@@ -104,11 +104,10 @@ python get_active_neuron.py --activation_mode='after_relu'
 **Methods for Sorting Neurons**
 
 * `14Properties` [ DEFAULT ]
-
-  TODO
+- Excute codes in `code_for_analysis`
+    
 * `3Spaces`: Affective Space, Basic Emotions Space, Appraisal Space
-
-  TODO
+- Excute codes in `code_for_analysis`
 
 
 ### **Step 5: Generate Masks Based on the Importance of Neurons**
