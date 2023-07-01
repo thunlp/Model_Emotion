@@ -144,9 +144,7 @@ python gen_mask.py \
 
 ### **Step 6: Evaluate Masked Neurons**
 
-We evaluate the masked neurons using the modified RoBERTa model loaded with the prompt to do the binary classification task. Each time the forward layer of the intermediate module is called, we multiply the corresponding mask by the layer's output.
-
-You can evaluate  the masks by running the default script `./eval.sh` in bash or :
+We evaluate the masked neurons using the modified RoBERTa model loaded with the prompt to do the binary classification task. Each time the forward layer of the intermediate module is called, we multiply the corresponding mask by the layer's output. You can evaluate  the masks by running the default script `eval.sh`:
 ```bash
 python eval_mask_neuron.py \
     --sentiment='joy' \
