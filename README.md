@@ -45,11 +45,6 @@ How humans infer discrete emotions is a fundamental research question in the fie
 
 This toolkit can help explore the emerging emotion concept in Large-Scale Language Models. Specifically, we can utilize this toolkit to observe the human emotion knowledge representation that emerges in large language models and supports discrete emotion inference.
 
-**Setups**
-- torch==1.12.0+cu118
-- python>=3.7
-
-You could refer environment.yml for more details.
 
 
 <div id="news"></div>
@@ -59,6 +54,14 @@ You could refer environment.yml for more details.
 - 2023.02.20: The version2.0 supports you to access any existing pre-trained language models o explore the humna-like emotion concepts.
 - 2023.02.15: These codes support you to access RoBERTa to explore the humna-like emotion concepts.
 
+
+<!--
+## Setups
+- torch==1.12.0+cu118
+- python>=3.7
+
+You could refer environment.yml for more details.
+-->
 
 
 <div id="installation"></div>
