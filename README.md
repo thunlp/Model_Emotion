@@ -67,17 +67,6 @@ You could refer environment.yml for more details.
 -->
 
 
-<div id="installation"></div>
-
-## Installation
-To set up the environment, run the following code in bash:
-```bash
-conda create -n openNeuron python=3.8
-conda activate openNeuron
-pip install -r requirements.txt
-```
-
-
 
 ## Setups
 - python==3.8.0
