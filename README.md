@@ -50,10 +50,13 @@ This toolkit can help explore the emerging emotion concept in Large-Scale Langua
 <div id="news"></div>
 
 ## News
-- (Expected) 2023.05.30:  We will provide more user-friendly API to enable non-CS background research to play our codes.
+- (Future):  We will provide more user-friendly API to enable non-CS background research to play our codes.
 - 2023.02.20: The version2.0 supports you to access any existing pre-trained language models o explore the humna-like emotion concepts.
 - 2023.02.15: These codes support you to access RoBERTa to explore the humna-like emotion concepts.
 
+## Note
+- [Model_Emotion-1.0](https://github.com/thunlp/Model_Emotion/tree/main/Model_Emotion-1.0) provides the original codes and details to reproduce the results in the paper.
+- [Model_Emotion-2.0-latest](https://github.com/thunlp/Model_Emotion/tree/main) refactors the Prompt-Transferability-1.0 and provides more user-friendly codes for users. In this `README.md`, we mainly demostrate the usage of the `Model_Emotion-2.0-latest`.
 
 <!--
 ## Setups
