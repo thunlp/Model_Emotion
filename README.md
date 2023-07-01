@@ -76,8 +76,11 @@ We recommend to create a new Anaconda environment to manage the required package
 conda create -n openNeuron python=3.8
 conda activate openNeuron
 pip install -r requirements.txt
+pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 ```
-If the system shows `ERROR: Invalid requirement: 'torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0' (from line 10 of requirements.txt)`. Please manually run `pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html`.
+If the system shows the error about torch. Please find the proper torch that can match your CPUs or GPUs.
+
+<!--`ERROR: Invalid requirement: 'torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0' (from line 10 of requirements.txt)`. Please manually run `pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html`.-->
 
 
 User can also directly create the environment via `Model_Emotion-2.0-latest/environment.yml`.
@@ -135,7 +138,7 @@ eval_results, mask = trainer.mask_activated_neuron()
 #### Detailed Usage
 
 #### **Step 1: Arguments**
-Before running any experiments, we need to set the correct arguments. We extend the original `transformers.TrainingArguments`. Please refer to `transformers` documentation and `./Model_Emotion-2.0-latest/framework/training_args.py` for the full list of arguments. 
+Before running any experiments, we need to set the correct arguments. We extend the original `transformers.TrainingArguments`. Please refer to `transformers` documentation and `Model_Emotion-2.0-latest/framework/training_args.py` for the full list of arguments. 
 For most arguments, the default values work fine. Here are some important parameters you may want to change.
 
 - `output_dir`: Required. Output directory for checkpoint, results, etc. E.g. 'outputs'.
