@@ -135,7 +135,7 @@ eval_results, mask = trainer.mask_activated_neuron()
 ```
 
 
-#### Detailed Usage
+### Detailed Usage
 
 #### **Step 1: Arguments**
 Before running any experiments, we need to set the correct arguments. We extend the original `transformers.TrainingArguments`. Please refer to `transformers` documentation and `Model_Emotion-2.0-latest/framework/training_args.py` for the full list of arguments. 
