@@ -116,18 +116,9 @@ Excute codes in `code_for_analysis`
 
 ### **Step 5: Generate Masks Based on the Importance of Neurons**
 
-After getting the neurons sorted out, we will generate masks for the top k important neurons. We will also generate random masks for setting the baseline.
-
-In the `gen_mask.py`, we provide several methods for masking the neurons and generating random masks.
+After getting the neurons sorted out, we will generate masks for the top k important neurons. We will also generate random masks for setting the baseline. In the `gen_mask.py`, we provide several methods for masking the neurons and generating random masks.
 
 **Methods for Masking Neurons**
-
-* `BINARY_MASK` [ DEFAULT ]
-
-  Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons.
-* `FLOAT_MASK`
-
-  Use random floats in the half-open interval [0.0, 1.0) to represent the mask neurons
 
 You can get the masks by running the following script:
 
@@ -139,6 +130,14 @@ python gen_mask.py \
 --PKL_File='./masks/RSA_14property_top_500_6000.pkl' \
 --thresholds=[500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000]
 ```
+
+* `BINARY_MASK` [ DEFAULT ]
+
+  Use 0 to represent the masked neurons, and 1 to represent the unmasked neurons.
+* `FLOAT_MASK`
+
+  Use random floats in the half-open interval [0.0, 1.0) to represent the mask neurons
+
 
 
 
