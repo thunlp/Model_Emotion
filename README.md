@@ -75,8 +75,7 @@ We recommend to create a new Anaconda environment to manage the required package
 ```bash
 conda create -n openNeuron python=3.8
 conda activate openNeuron
-pip install -r requirements.txt
-pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+bash requirements.sh
 ```
 If the system shows the error about torch. Please find the proper torch that can match your CPUs or GPUs.
 
