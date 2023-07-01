@@ -34,7 +34,7 @@
 
 
 <p align="center">
-<img src="pic/cover.jpg" height="256px" />
+<img src="../pic/cover.jpg" height="256px" />
 <!--![Human Emotion Knowledge Representation Emerges in Large Language Models and Supports Discrete Emotion Inference![image](pic/cover.png)-->
 </p>
 
@@ -154,7 +154,7 @@ python eval_mask_neuron.py \
 
 ### Neurons Correspond Selectively to Emotional Attributes
 
-![Neurons Correspond Selectively to Emotional Attributes](pic/Neurons_Correspond_Selectively_to_Emotional_Attributes.png)
+![Neurons Correspond Selectively to Emotional Attributes](../pic/Neurons_Correspond_Selectively_to_Emotional_Attributes.png)
 
 \* For each attribute, show the top 4000 neurons of correspondence.
 
@@ -162,7 +162,7 @@ python eval_mask_neuron.py \
 
 ### Accuracy after Masking Corresponding Neurons
 
- ![Acc after masking correspond neuron](pic/Acc_after_masking_correspond_neuron.png)
+ ![Acc after masking correspond neuron](../pic/Acc_after_masking_correspond_neuron.png)
 
 
 <!--
