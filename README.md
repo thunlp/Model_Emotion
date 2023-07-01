@@ -83,7 +83,7 @@ pip install -r requirements.txt
 ## Usage
 
 #### Quick Example
-The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`
+The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`. Please refer to `Model_Emotion-2.0-latest/train.py` for a full example.
 
 ```python
 from transformers import tokenizer
@@ -120,8 +120,8 @@ eval_results, mask = trainer.mask_activated_neuron()
 
 ```
 
+
 #### Detailed Usage
-Please refer to `Model_Emotion-2.0-latest/train.py` for a full example.
 
 #### **Step 1: Arguments**
 Before running any experiments, we need to set the correct arguments. We extend the original `transformers.TrainingArguments`. Please refer to `transformers` documentation and `./Model_Emotion-2.0-latest/framework/training_args.py` for the full list of arguments. 
@@ -176,7 +176,7 @@ eval_result = trainer.eval_prompt()
 ```
 
 
-###### **Step 3: Activate Neurons in Model**
+#### **Step 3: Activate Neurons in Model**
 
 We use the special token '**\<s>**' to activate the neurons in RoBERTa.
 
@@ -190,11 +190,14 @@ neuron_before_relu, neuron_after_relu = trainer.activated_neuron()
 **Methods for Sorting Neurons**
 
 * `14Properties` [ DEFAULT ]
+```
+Excute codes in `code_for_analysis`
+```
 
-  TODO
 * `3Spaces`: Affective Space, Basic Emotions Space, Appraisal Space
-
-  TODO
+```
+Excute codes in `code_for_analysis`
+```
 
 
 #### **Step 5: Generate Masks Based on the Importance of Neurons**
