@@ -96,20 +96,56 @@ conda env create -f environment.yml
 ## Usage
 
 ### Quick Example
-The following code shows an example of prompt training, evaluation, activated neuron analysis on `SST2` with `Roberta-base`. Please refer to `Model_Emotion-2.0-latest/train.py` for a full example.
+Go to `Model_Emotion-2.0-latest` and run `train.sh`
+```bash
+BACKBONE=roberta-base
+PROMPTLEN=100
+
+
+for sentiment in 'realization' 'surprise' 'admiration' 'gratitude' 'optimism' 'approval' \
+                 'pride' 'excitement' 'joy' 'love' 'amusement' 'caring' \
+                 'relief' 'curiosity' 'desire' 'disgust' 'disapproval' 'anger' \
+                 'annoyance' 'confusion' 'fear' 'disappointment' 'grief' 'sadness' \
+                 'nervousness' 'embarrassment' 'remorse'
+do
+  for seed in {1,3,5,7,9,11,13,15,17,19,42,100}
+  do
+    echo "sentiment=$sentiment,random_seed=$seed"
+    CUDA_VISIBLE_DEVICES=0 \
+    python train.py \
+    --output_dir outputs \
+    --backbone $BACKBONE \
+    --prompt_len $PROMPTLEN \
+    --sentiment=$sentiment \
+    --seed $seed
+  done
+done
+```
+This script train 27 emotion prompts with 12 different seeds. The `train.py` includes prompt tuning , evaluation, and activated neuron analysis. Please refer to `Model_Emotion-2.0-latest/train.py` as follows:
 
 ```python
 from transformers import tokenizer
 from framework import RobertaForMaskedLMPrompt
-from framework.training_args import ModelEmotionArguments
+from framework.training_args import ModelEmotionArguments, RemainArgHfArgumentParser
 
-# Training config
-args = ModelEmotionArguments(
-  output_dir='outputs',
-  backbone='roberta-base',
-  prompt_len=100,
-  sentiment='surprise'
-)
+parser = RemainArgHfArgumentParser(ModelEmotionArguments)
+if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
+    # If we pass only one argument to the script and it's the path to a json file,
+    # let's parse it to get our arguments.
+    json_file=os.path.abspath(sys.argv[1])
+    args = parser.parse_json_file(json_file, return_remaining_args=True)[0] #args = arg_string, return_remaining_strings=True) #parse_json_file(json_file=os.path.abspath(sys.argv[1]))
+else:
+    args = parser.parse_args_into_dataclasses()[0]
+
+# Main Training config
+#args = ModelEmotionArguments(
+#  output_dir='outputs',
+#  backbone='roberta-base',
+#  prompt_len=100,
+#  sentiment='surprise'
+#)
+
+
 
 tokenizer = AutoTokenizer.from_pretrained(args.backbone, max_length=args.max_source_length, use_fast=False)
 model = RobertaForMaskedLMPrompt.from_pretrained(args.backbone, prompt_len=args.prompt_len, num_labels=2)
@@ -150,14 +186,22 @@ For most arguments, the default values work fine. Here are some important parame
 In Python scripts, you can use the following code to set the arguments
 
 ```python
-from framework.training_args import ModelEmotionArguments
+parser = RemainArgHfArgumentParser(ModelEmotionArguments)
+if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
+    # If we pass only one argument to the script and it's the path to a json file,
+    # let's parse it to get our arguments.
+    json_file=os.path.abspath(sys.argv[1])
+    args = parser.parse_json_file(json_file, return_remaining_args=True)[0] #args = arg_string, return_remaining_strings=True) #parse_json_file(json_file=os.path.abspath(sys.argv[1]))
+else:
+    args = parser.parse_args_into_dataclasses()[0]
 
-args = ModelEmotionArguments(
-  output_dir='outputs',
-  backbone='roberta-base',
-  prompt_len=100,
-  sentiment='surprise'
-)
+# Main Training config
+#args = ModelEmotionArguments(
+#  output_dir='outputs',
+#  backbone='roberta-base',
+#  prompt_len=100,
+#  sentiment='surprise'
+#)
 ```
 
 #### **Step 2: Train Emotional Prompt**
