@@ -5,7 +5,7 @@
 
 for sentiment in 'surprise'
 do
-  for seed in {1}
+  for seed in 1
   do
     echo "sentiment=$sentiment,random_seed=$seed"
     CUDA_VISIBLE_DEVICES=0 \

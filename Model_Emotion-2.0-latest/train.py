@@ -4,11 +4,11 @@ import logging
 import numpy as np
 import torch
 from transformers import (
-    AutoTokenizer, 
-    AdamW, 
-    set_seed, 
-    TrainingArguments, 
-    DataCollatorWithPadding, 
+    AutoTokenizer,
+    AdamW,
+    set_seed,
+    TrainingArguments,
+    DataCollatorWithPadding,
     default_data_collator,
     EvalPrediction
 )
@@ -35,7 +35,7 @@ def main():
     else:
         args = parser.parse_args_into_dataclasses()[0]
 
-    set_seed(args.seed)
+    #set_seed(args.seed)
 
     # Tokenizer
     tokenizer = AutoTokenizer.from_pretrained(args.backbone, max_length=args.max_source_length, use_fast=False)
@@ -53,13 +53,13 @@ def main():
 
 
     metric = load_metric("framework/glue_metrics.py")
-    
+
     def compute_metrics(p: EvalPrediction):
         preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
         preds = np.argmax(preds, axis=1)
         result = metric.compute(predictions=preds, references=p.label_ids)
         result["combined_score"] = np.mean(list(result.values())).item()
-        
+
         return result
 
     # Train
