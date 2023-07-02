@@ -121,6 +121,13 @@ do
   done
 done
 ```
+- `output_dir`: Required. Output directory for checkpoint, results, etc. E.g. 'outputs'.
+- `backbone`: The PLM to use. E.g. 'roberta-base'.
+- `prompt_len`: The number of soft prompt tokens. E.g. 100.
+- `sentiment`: The emotion to use. See the below section for more details. E.g. 'surprise'.
+- `max_source_length`: The maximum length of input. E.g. 128.
+
+
 This script train 27 emotion prompts with 12 different seeds. The `train.py` includes prompt tuning , evaluation, and activated neuron analysis. Please refer to `Model_Emotion-2.0-latest/train.py` as follows:
 
 ```python
@@ -128,6 +135,8 @@ from transformers import tokenizer
 from framework import RobertaForMaskedLMPrompt
 from framework.training_args import ModelEmotionArguments, RemainArgHfArgumentParser
 
+
+# Training config
 parser = RemainArgHfArgumentParser(ModelEmotionArguments)
 if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
     # If we pass only one argument to the script and it's the path to a json file,
@@ -137,7 +146,6 @@ if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
 else:
     args = parser.parse_args_into_dataclasses()[0]
 
-# Main Training config
 #args = ModelEmotionArguments(
 #  output_dir='outputs',
 #  backbone='roberta-base',
@@ -186,6 +194,7 @@ For most arguments, the default values work fine. Here are some important parame
 In Python scripts, you can use the following code to set the arguments
 
 ```python
+# Main Training config
 parser = RemainArgHfArgumentParser(ModelEmotionArguments)
 if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
     # If we pass only one argument to the script and it's the path to a json file,
@@ -195,7 +204,6 @@ if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
 else:
     args = parser.parse_args_into_dataclasses()[0]
 
-# Main Training config
 #args = ModelEmotionArguments(
 #  output_dir='outputs',
 #  backbone='roberta-base',
