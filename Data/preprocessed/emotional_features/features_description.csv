@@ -1,0 +1,37 @@
+name,description
+arousal,To what extend does EMOTION make you feel...(Very Calming/Very Arousing)
+valence,To what extend does EMOTION make you feel...(Very Unpleasant/Very Pleasant)
+happy,To what extend is consistent with the physiological response shown in the figures: (Very Inconsistent/Very Consistent)
+anger,To what extend is consistent with the physiological response shown in the figures: (Very Inconsistent/Very Consistent)
+sad,To what extend is consistent with the physiological response shown in the figures: (Very Inconsistent/Very Consistent)
+fear,To what extend is consistent with the physiological response shown in the figures: (Very Inconsistent/Very Consistent)
+surprise,To what extend is consistent with the physiological response shown in the figures: (Very Inconsistent/Very Consistent)
+disgust,To what extend is consistent with the physiological response shown in the figures: (Very Inconsistent/Very Consistent)
+pleasantness,Specific Event A involved a hedonically positive or pleasant experience for me.
+goal consistency,"Specific Event A was consistent with my goals, needs, or desires."
+caused by self,Specific Event A was caused by myself rather than by someone/something else.
+fairness,Specific Event A was fair for me.
+intentional action,"Someone caused Specific Event A intentionally, not by accident."
+self esteem,Specific Event A affected my self-esteem or opinion of myself.
+morality,Specific Event A involved people behaving in a way that would be considered proper or moral.
+suddenness,Specific Event A occurred suddenly/out of the blue.
+control,Specific Event A in this situation was primarily within my control.
+caused by agent,Specific Event A was caused by a person rather than some other external force (e.g. randomness).
+agent vs. situation,"Specific Event A was primarily a reflection of me (e.g. my personality, my abilities) rather than a reflection of the surrounding situation."
+self relevance,There was a lot at stake for me in Specific Event A. Specific Event A has high-relevance for my life.
+danger,I was in physical danger in Specific Event A.
+safety,Specific Event A involved risks for me or others.
+pressure,I was under a lot of pressure in Specific Event A.
+psychological change,Specific Event A involved a change in my psychological state.
+expectedness,I expected Specific Event A to occur.
+bodily disease,Specific Event A involved events relating to the physical body.
+familiarity,Specific Event A was a familiar event/situation for me.
+consequences,Specific Event A was an isolated incident rather than with long-term consequences.
+other people,I was interacting with people in Specific Event A.
+self consistency,Specific Event A involved events consistent with my personality or self-concept.
+involved close others,Specific Event A involved people that I fell close to.
+self involvement,Specific Event A described an outcome directly involving myself rather than primarily involving other people.
+mental states,"My emotion was related to the mental states (e.g. beliefs, attitudes) of other people."
+others knowledge,People other than me knew about Specific Event A.
+repetition,I thought Specific Event A was likely to occur again.
+freedom,I was free to act or behave however I wanted in Specific Event A.
